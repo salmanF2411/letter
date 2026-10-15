@@ -1,0 +1,866 @@
+/* ==========================================================================
+   Blooming Love Letter — Styling & Animations
+   PRD Compliant: Cute Romantic Floral Theme
+   ========================================================================== */
+
+:root {
+  /* PRD Palette Tokens */
+  --pink-bg: #FFF0F5;
+  --pink-soft: #FFD8E7;
+  --pink-envelope: #F4A7C5;
+  --pink-envelope-dark: #E68FB3;
+  --pink-dark: #D85F93;
+  --pink-darker: #B84777;
+  --rose: #C94F7C;
+  --cream: #FFF9F0;
+  --white: #FFFFFF;
+  --lavender: #E7DDF7;
+  --lavender-dark: #C6B3E8;
+  --sage: #BFD8B5;
+  --sage-dark: #9EBD93;
+  --text: #593847;
+  --text-muted: #856B78;
+
+  /* Shadows & Curves */
+  --shadow-sm: 0 4px 12px rgba(216, 95, 147, 0.08);
+  --shadow-md: 0 10px 30px rgba(216, 95, 147, 0.15);
+  --shadow-lg: 0 20px 50px rgba(184, 71, 119, 0.22);
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 32px;
+  --radius-full: 9999px;
+
+  /* Envelope Dimensions */
+  --env-width: 330px;
+  --env-height: 220px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --env-width: 400px;
+    --env-height: 260px;
+  }
+}
+
+/* Base & Typography */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--text);
+  background-color: var(--pink-bg);
+  background-image: 
+    radial-gradient(circle at 15% 20%, rgba(255, 216, 231, 0.6) 0%, transparent 40%),
+    radial-gradient(circle at 85% 30%, rgba(231, 221, 247, 0.6) 0%, transparent 45%),
+    radial-gradient(circle at 50% 85%, rgba(255, 240, 245, 0.8) 0%, transparent 50%),
+    linear-gradient(135deg, #FFF0F5 0%, #FFF5F8 50%, #FFF9F0 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3, .font-heading {
+  font-family: 'Quicksand', 'Nunito', sans-serif;
+  font-weight: 700;
+  color: var(--rose);
+}
+
+/* Floating Particle Canvas Container */
+.petals-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.floating-petal, .floating-heart {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.75;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+/* Header Section */
+.hero-header {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding-top: 2rem;
+  padding-bottom: 1.5rem;
+}
+
+.badge-sweet {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--pink-soft);
+  color: var(--rose);
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 0.45rem 1.25rem;
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.5px;
+  animation: gentle-float 3s ease-in-out infinite alternate;
+}
+
+.main-title {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  color: var(--text);
+  line-height: 1.3;
+  margin-bottom: 0.5rem;
+}
+
+.main-title span {
+  color: var(--pink-dark);
+  position: relative;
+  display: inline-block;
+}
+
+.lead-desc {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  max-width: 520px;
+  margin: 0 auto 0.75rem auto;
+}
+
+.instruction-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--pink-dark);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  padding: 0.35rem 1rem;
+  border-radius: var(--radius-full);
+  border: 1px dashed var(--pink-envelope);
+  box-shadow: 0 2px 8px rgba(216, 95, 147, 0.08);
+}
+
+/* Main Interactive Scene */
+.scene-container {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 380px;
+  padding: 2rem 1rem 3.5rem 1rem;
+  perspective: 1200px;
+}
+
+@media (min-width: 768px) {
+  .scene-container {
+    min-height: 440px;
+  }
+}
+
+/* Floral Frame & Decorations */
+.floral-frame {
+  position: absolute;
+  width: calc(var(--env-width) + 160px);
+  height: calc(var(--env-height) + 130px);
+  pointer-events: none;
+  z-index: 4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flower-cluster {
+  position: absolute;
+  filter: drop-shadow(0 4px 10px rgba(184, 71, 119, 0.12));
+}
+
+.flower-cluster.bottom-left {
+  bottom: -25px;
+  left: -20px;
+  transform-origin: bottom left;
+  animation: flower-sway-1 4.5s ease-in-out infinite alternate;
+}
+
+.flower-cluster.bottom-right {
+  bottom: -25px;
+  right: -20px;
+  transform-origin: bottom right;
+  animation: flower-sway-2 5s ease-in-out 0.8s infinite alternate;
+}
+
+.flower-cluster.top-left {
+  top: 15px;
+  left: -35px;
+  transform-origin: top left;
+  animation: flower-sway-3 4s ease-in-out 0.4s infinite alternate;
+}
+
+.flower-cluster.top-right {
+  top: 15px;
+  right: -35px;
+  transform-origin: top right;
+  animation: flower-sway-1 4.8s ease-in-out 1.2s infinite alternate;
+}
+
+.flower-cluster.bottom-center {
+  bottom: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  transform-origin: bottom center;
+  animation: bloom-pulse 6s ease-in-out infinite alternate;
+  z-index: 7;
+}
+
+/* Envelope Component */
+.envelope-interactive-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  position: relative;
+  outline: none;
+  display: block;
+  z-index: 6;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.envelope-interactive-btn:focus-visible .envelope {
+  outline: 3px solid var(--rose);
+  outline-offset: 6px;
+  border-radius: var(--radius-md);
+}
+
+.envelope-interactive-btn:hover {
+  transform: translateY(-4px) scale(1.015);
+}
+
+.envelope-interactive-btn:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
+/* The Envelope Box */
+.envelope {
+  position: relative;
+  width: var(--env-width);
+  height: var(--env-height);
+  background-color: var(--pink-envelope);
+  border-radius: 16px;
+  box-shadow: 
+    0 15px 35px rgba(216, 95, 147, 0.25),
+    0 5px 15px rgba(0, 0, 0, 0.05);
+  perspective: 1200px;
+}
+
+/* Back Plate of Envelope */
+.envelope-back {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(145deg, #f09cb8, #f8b8cf);
+  border-radius: 16px;
+  z-index: 1;
+}
+
+/* Inner Envelope Pocket Lining */
+.envelope-lining {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  background: #fce4ec;
+  background-image: radial-gradient(#f48fb1 0.75px, transparent 0.75px);
+  background-size: 10px 10px;
+  border-radius: 12px;
+  z-index: 2;
+}
+
+/* Preview / Mini Letter inside Envelope */
+.envelope-letter-peeking {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  top: 15px;
+  height: calc(var(--env-height) - 30px);
+  background: var(--cream);
+  border-radius: 10px 10px 4px 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  z-index: 3;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.envelope-letter-peeking .fake-line {
+  height: 6px;
+  background: var(--pink-soft);
+  border-radius: 4px;
+  opacity: 0.8;
+}
+
+.envelope-letter-peeking .fake-line.short {
+  width: 45%;
+}
+
+.envelope-letter-peeking .fake-line.medium {
+  width: 70%;
+}
+
+.envelope-letter-peeking .peeking-heart {
+  align-self: center;
+  margin-top: 6px;
+  color: var(--rose);
+  font-size: 1.25rem;
+  animation: heart-beat 2s infinite ease-in-out;
+}
+
+/* Front Pocket (Left, Right, Bottom triangles) */
+.envelope-pocket-front {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* Left & Right side flaps */
+.envelope-pocket-front::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    linear-gradient(to top right, #f6adc9 50%, transparent 50%) left,
+    linear-gradient(to top left, #f39dbd 50%, transparent 50%) right;
+  background-size: 50.5% 100%;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 2px 4px rgba(184, 71, 119, 0.1));
+}
+
+/* Bottom Flap */
+.envelope-pocket-front::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 62%;
+  background: linear-gradient(180deg, #f7b2cc, #f29bbd);
+  clip-path: polygon(0 100%, 50% 18%, 100% 100%);
+  filter: drop-shadow(0 -3px 6px rgba(184, 71, 119, 0.12));
+}
+
+/* Top Flap (Triangular Lid) */
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64%;
+  background: linear-gradient(180deg, #f5a8c6, #f39bbe);
+  clip-path: polygon(0 0, 50% 100%, 100% 0);
+  transform-origin: top center;
+  transform: rotateX(0deg);
+  transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.2s;
+  z-index: 5;
+  filter: drop-shadow(0 5px 6px rgba(184, 71, 119, 0.15));
+}
+
+/* When envelope opens */
+.envelope.is-open .envelope-flap {
+  transform: rotateX(180deg);
+  z-index: 1; /* move behind the rising letter */
+}
+
+.envelope.is-open .envelope-letter-peeking {
+  transform: translateY(-55%);
+}
+
+/* Heart Seal */
+.heart-seal {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, var(--pink-dark), var(--rose));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  box-shadow: 
+    0 4px 12px rgba(201, 79, 124, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.4);
+  z-index: 6;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+}
+
+.heart-seal svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
+}
+
+.envelope-interactive-btn:hover .heart-seal {
+  transform: translate(-50%, -50%) scale(1.12);
+}
+
+.envelope.is-open .heart-seal {
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Stamp Decoration on Top-Right */
+.envelope-stamp {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 38px;
+  height: 46px;
+  border: 2px dashed #fce4ec;
+  border-radius: 4px;
+  background: #f8bbd0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+.envelope-stamp span {
+  font-size: 16px;
+}
+
+/* Secondary Action Button below Envelope */
+.scene-actions {
+  text-align: center;
+  margin-top: 1.5rem;
+  position: relative;
+  z-index: 10;
+}
+
+.btn-romantic {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: linear-gradient(135deg, var(--pink-dark), var(--rose));
+  color: var(--white);
+  border: none;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0.75rem 2rem;
+  border-radius: var(--radius-full);
+  box-shadow: 0 8px 24px rgba(216, 95, 147, 0.35);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-romantic:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 12px 30px rgba(216, 95, 147, 0.45);
+  color: var(--white);
+}
+
+.btn-romantic:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-romantic-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--white);
+  color: var(--pink-dark);
+  border: 2px solid var(--pink-soft);
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.65rem 1.6rem;
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.btn-romantic-outline:hover {
+  background: var(--pink-soft);
+  color: var(--rose);
+  border-color: var(--pink-envelope);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   Full Letter Modal / Expanded Sheet View
+   ========================================================================== */
+.letter-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(89, 56, 71, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.25rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.letter-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.letter-modal {
+  position: relative;
+  background: var(--cream);
+  background-image: 
+    radial-gradient(var(--pink-soft) 0.75px, transparent 0.75px),
+    linear-gradient(to bottom, #FFFFFF 0%, #FFF9F0 100%);
+  background-size: 16px 16px, 100% 100%;
+  width: 100%;
+  max-width: 620px;
+  max-height: 88vh;
+  border-radius: var(--radius-lg);
+  box-shadow: 
+    0 25px 60px rgba(89, 56, 71, 0.3),
+    0 0 0 1px rgba(255, 216, 231, 0.6);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: scale(0.85) translateY(40px);
+  opacity: 0;
+  transition: transform 0.5s cubic-bezier(0.34, 1.35, 0.64, 1), opacity 0.4s ease;
+}
+
+.letter-overlay.active .letter-modal {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+/* Letter Floral Header Decorative Bar */
+.letter-header-decor {
+  position: relative;
+  padding: 1.5rem 1.75rem 1rem 1.75rem;
+  text-align: center;
+  border-bottom: 1px dashed var(--pink-soft);
+  background: linear-gradient(180deg, #FFFFFF, rgba(255, 249, 240, 0.6));
+}
+
+.letter-seal-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, var(--pink-soft), var(--pink-envelope));
+  color: var(--rose);
+  border-radius: 50%;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 4px 12px rgba(216, 95, 147, 0.2);
+  animation: heart-beat 2.5s infinite ease-in-out;
+}
+
+.letter-seal-icon svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
+.letter-top-tag {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--rose);
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.letter-modal-title {
+  font-size: 1.35rem;
+  color: var(--text);
+  margin: 0;
+  font-weight: 700;
+}
+
+/* Close Button top-right */
+.btn-close-letter-x {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--pink-soft);
+  color: var(--rose);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.btn-close-letter-x:hover {
+  background: var(--rose);
+  color: var(--white);
+  transform: rotate(90deg);
+}
+
+.btn-close-letter-x:focus-visible {
+  outline: 2px solid var(--rose);
+  outline-offset: 2px;
+}
+
+/* Letter Scrollable Body */
+.letter-body-scroll {
+  padding: 1.5rem 1.75rem;
+  overflow-y: auto;
+  flex: 1 1 auto;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--text);
+  scroll-behavior: smooth;
+}
+
+/* Custom Pretty Scrollbar */
+.letter-body-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+.letter-body-scroll::-webkit-scrollbar-track {
+  background: rgba(255, 216, 231, 0.3);
+  border-radius: 4px;
+}
+.letter-body-scroll::-webkit-scrollbar-thumb {
+  background: var(--pink-envelope);
+  border-radius: 4px;
+}
+.letter-body-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--pink-dark);
+}
+
+.letter-salutation {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--rose);
+  margin-bottom: 1rem;
+}
+
+.letter-paragraph {
+  margin-bottom: 1.2rem;
+  text-align: left;
+}
+
+.letter-highlight-box {
+  background: rgba(255, 216, 231, 0.45);
+  border-left: 4px solid var(--rose);
+  padding: 1rem 1.25rem;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin: 1.5rem 0;
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: var(--rose);
+}
+
+.letter-signature {
+  margin-top: 1.8rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--pink-soft);
+  text-align: right;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.letter-signature strong {
+  display: block;
+  font-size: 1.1rem;
+  color: var(--rose);
+  font-style: normal;
+  margin-top: 0.3rem;
+}
+
+/* Letter Modal Footer Action */
+.letter-modal-footer {
+  padding: 1rem 1.75rem 1.5rem 1.75rem;
+  background: linear-gradient(0deg, #FFFFFF, rgba(255, 249, 240, 0.8));
+  border-top: 1px solid rgba(255, 216, 231, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Page Footer */
+.page-footer {
+  margin-top: auto;
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 1.5rem 1rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.page-footer span {
+  display: inline-block;
+  color: var(--rose);
+  animation: heart-beat 2s infinite ease-in-out;
+}
+
+/* ==========================================================================
+   Keyframe Animations
+   ========================================================================== */
+
+/* Flower sway motions with organic subtle curves */
+@keyframes flower-sway-1 {
+  0% { transform: rotate(-3deg) translateY(0); }
+  50% { transform: rotate(2deg) translateY(-2px); }
+  100% { transform: rotate(4deg) translateY(1px); }
+}
+
+@keyframes flower-sway-2 {
+  0% { transform: rotate(4deg) translateY(0); }
+  50% { transform: rotate(-2deg) translateY(-3px); }
+  100% { transform: rotate(-4deg) translateY(1px); }
+}
+
+@keyframes flower-sway-3 {
+  0% { transform: rotate(-2deg) scale(0.98); }
+  100% { transform: rotate(3deg) scale(1.02); }
+}
+
+/* Blooming pulse */
+@keyframes bloom-pulse {
+  0% { transform: translateX(-50%) scale(0.97); }
+  100% { transform: translateX(-50%) scale(1.03); }
+}
+
+/* Gentle float for badges & accents */
+@keyframes gentle-float {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-4px); }
+}
+
+/* Heartbeat pulse */
+@keyframes heart-beat {
+  0%, 100% { transform: scale(1); }
+  15% { transform: scale(1.18); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.12); }
+}
+
+/* Floating Petals upwards/sideways */
+@keyframes float-petal-up {
+  0% {
+    transform: translate(0, 100vh) rotate(0deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.7;
+  }
+  85% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(calc(var(--drift-x, 40px)), -50px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .floating-petal, .floating-heart {
+    display: none !important;
+  }
+
+  .flower-cluster {
+    animation: none !important;
+  }
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 576px) {
+  .hero-header {
+    padding-top: 1.5rem;
+    padding-bottom: 1rem;
+  }
+
+  .main-title {
+    font-size: 1.6rem;
+  }
+
+  .floral-frame {
+    width: calc(var(--env-width) + 60px);
+    height: calc(var(--env-height) + 80px);
+  }
+
+  .flower-cluster.top-left, 
+  .flower-cluster.top-right {
+    display: none; /* keep clean on tiny screens per PRD */
+  }
+
+  .flower-cluster.bottom-left {
+    left: -10px;
+    bottom: -15px;
+    transform: scale(0.85);
+  }
+
+  .flower-cluster.bottom-right {
+    right: -10px;
+    bottom: -15px;
+    transform: scale(0.85);
+  }
+
+  .letter-modal {
+    max-height: 92vh;
+    border-radius: var(--radius-md);
+  }
+
+  .letter-body-scroll {
+    font-size: 0.98rem;
+    padding: 1.2rem 1.25rem;
+    line-height: 1.7;
+  }
+
+  .letter-header-decor {
+    padding: 1.25rem 1.25rem 0.75rem 1.25rem;
+  }
+
+  .letter-modal-footer {
+    padding: 0.75rem 1.25rem 1.25rem 1.25rem;
+  }
+}
